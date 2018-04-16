@@ -1,10 +1,10 @@
 {
-  "name": "preact-boilerplate",
+  "name": "BenBenBen.Zone",
   "version": "1.0.0",
-  "description": "Preact Boilerplate",
-  "license": "MIT",
+  "description": "",
+  "license": "n/a",
   "repository": "github:therealparmesh/preact-boilerplate",
-  "author": "Parmesh Krishen",
+  "author": "",
   "scripts": {
     "build": "parcel build ./src/index.js",
     "start": "parcel ./index.html"
