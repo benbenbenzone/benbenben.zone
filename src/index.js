@@ -1,12 +1,9 @@
-import {
-  h,
-  render
-} from 'preact'
-import 'preact/devtools'
-import Heading from './components/Heading'
+import Conductor from './conductor';
 
-const mountNode = document.getElementById('root')
+window.onload = function() {
+  const conductor = new Conductor();
 
-render((
-  <Heading text='Hello World!' />
-), mountNode, mountNode.lastChild)
+  conductor.load().then(() => {
+    conductor.start();
+  })
+}
