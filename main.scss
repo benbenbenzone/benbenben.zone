@@ -1,8 +1,12 @@
+html,
 body {
-  overflow: hidden;
-  margin:0;
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
 }
 
 .animation-canvas {
   border: 1px solid white;
 }
+
+/* Scale canvas with resize attribute to full size */
