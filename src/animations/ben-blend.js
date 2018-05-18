@@ -6,6 +6,8 @@ Paper.install(window);
 
 export default class {
   constructor (canvas) {
+
+    this.operationsList = ['unite', 'intersect', 'subtract', 'exclude', 'divide']
     this.canvas = canvas;
     paper.setup(canvas);
 
@@ -52,7 +54,8 @@ export default class {
             item.children[1].children[0].children[0], 
             item.children[1].children[0].children[1],
             item.children[1].children[0].children[2]
-          ]
+          ],
+          insert: false
         });
         const ben1 = this.benSingle.clone();
         console.log(ben1.bounds)
@@ -70,9 +73,11 @@ export default class {
         this.ben.fillColor = 'red';
         this.ben.scale(5.0, 25.0);
         this.ben.position = view.center;
-        console.log(this.ben);
+        console.log(this.ben.children);
+
         // this.ben.selected = true;
         this.ben.addTo(paper.project);
+        this.benStatic = this.ben.clone({insert: false});
       }
     });
 
@@ -89,17 +94,30 @@ export default class {
       this.box.position = view.center;
       this.box.scale(view.viewSize.width/this.box.bounds.width,view.viewSize.height/this.box.bounds.height);
       this.ben.position = view.center;
-
-
+      this.ben.scale(view.viewSize.width/this.ben.bounds.width,view.viewSize.height/this.ben.bounds.height);
       if (this.result) {
         this.result.remove();
       }
-      this.result = this.box.exclude(this.ben);
+      this.updateBens(event.time);
+      
+      this.result = this.box[this.operationsList[Math.floor(Math.random()*this.operationsList.length)]](this.ben);
       this.result.fillColor = 'black';
       
     }
       // console.log(result.children[0]);
 
+  }
+
+  updateBens(time) {
+      // this.ben.children.forEach((singleBen, i1) => {
+      //   singleBen.segments.forEach((segment, i2) => {
+      //     const cloneSegment = this.benStatic.children[i1].segments[i2];
+      //     // segment.point.x  = cloneSegment.point.x + Math.abs(Math.sin(time * 10 *i2)*50);
+      //     // segment.point.y  = cloneSegment.point.y + Math.abs(Math.cos(time * 10 *i2)*50);
+
+          
+      //   })
+      // });
   }
 
   draw() {

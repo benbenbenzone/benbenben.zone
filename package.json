@@ -10,6 +10,7 @@
     "start": "parcel ./index.html"
   },
   "dependencies": {
+    "lodash": "^4.17.10",
     "paper": "^0.11.5",
     "preact": "^8.2.7",
     "right-now": "^1.0.0"

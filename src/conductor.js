@@ -1,11 +1,11 @@
 import RightNow from 'right-now';
 
 // ANIMATIONS IMPORT
-import BenForces from './animations/ben-forces';
+import BenBlend from './animations/ben-blend';
 
 
 const animationsImportList = [
-  BenForces
+  BenBlend
 ];
 
 export default class {
