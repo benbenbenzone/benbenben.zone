@@ -20470,7 +20470,7 @@ var paper = function (self, undefined) {
 	return paper;
 }.call(this, (typeof self === 'undefined' ? 'undefined' : _typeof(self)) === 'object' ? self : null);
 },{"./node/self.js":15,"acorn":17,"./node/extend.js":15,"process":16}],13:[function(require,module,exports) {
-module.exports="/ben.b280dc48.svg";
+module.exports="./ben.b280dc48.svg";
 },{}],9:[function(require,module,exports) {
 'use strict';
 
