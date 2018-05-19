@@ -6,7 +6,7 @@
   "repository": "github:therealparmesh/preact-boilerplate",
   "author": "",
   "scripts": {
-    "build": "parcel build ./index.html --public-url ./",
+    "build": "parcel build ./index.html --public-url .",
     "start": "parcel ./index.html"
   },
   "dependencies": {
