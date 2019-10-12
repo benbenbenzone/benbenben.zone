@@ -15,7 +15,7 @@ class Vertex {
   
     update () {
       if (!this.fixed) {
-      
+        this.velocity.y += 0.01
         const next = {
           x : this.position.x + this.velocity.x,
           y : this.position.y + this.velocity.y,
@@ -31,9 +31,10 @@ class Vertex {
           x: (this.position.x - this.prev.x),
           y: (this.position.y - this.prev.y)
         }
+
       } else {
         if (this.position.x < (this.originalPosition.x + 300)) {
-          this.position.x += 100;
+          this.position.x += 10;
         }
       }
  
@@ -53,6 +54,13 @@ class Vertex {
         this.position.y = 0
         this.prev.y = this.position.y + this.velocity.y
       }
+    }
+
+    resting () {
+      if (!this.fixed) {
+        // console.log(this.velocity)
+      }
+      return (this.fixed || (Math.abs(this.velocity.x) <= 0.01 && Math.abs(this.velocity.y) <= 0.01))
     }
 }
   
