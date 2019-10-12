@@ -9,10 +9,7 @@ import BenBSvg from '../assets/ben.svg'
 import Simulator from '../physics/Simulator'
 
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
+  name: 'HomeLogo',
   mounted() {
     const canvas  = document.getElementById('homelogo')
     const HomeLogoProject = new Project(canvas)
