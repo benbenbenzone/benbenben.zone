@@ -1,11 +1,14 @@
  const MathUtil = {
   
-    distance (p1, p2) {
-      return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2))
+    distance (a, b) {
+      return Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2))
     },
-  
-    connect () {
-  
+    vectorLength (v) {
+      return Math.sqrt((v.x * v.x) + (v.y * v.y))
+    },
+
+    dotProduct (a,b) {
+      return ((a.x * b.x) + (a.y * b.y))
     }
   }
   
