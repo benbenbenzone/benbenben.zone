@@ -22,9 +22,9 @@ class Vertex {
         }
         // if (this.fixed) {
         // }
-        if (this.next.x < (this.originalPosition.x + 300)) {
-          next.y += 0.1;
-        }
+        // if (this.next.x < (this.originalPosition.x + 300)) {
+        //   next.y += 0.1;
+        // }
         this.prev = this.position
         this.position = next
         this.velocity = {
