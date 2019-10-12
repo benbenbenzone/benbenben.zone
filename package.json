@@ -1,25 +1,50 @@
 {
-  "name": "BenBenBen.Zone",
-  "version": "1.0.0",
-  "description": "",
-  "license": "n/a",
-  "repository": "github:therealparmesh/preact-boilerplate",
-  "author": "",
+  "name": "benbenben.zone",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "build": "parcel build ./index.html --public-url .",
-    "start": "parcel ./index.html"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "lodash": "^4.17.10",
-    "paper": "^0.11.5",
-    "preact": "^8.2.7",
-    "right-now": "^1.0.0"
+    "core-js": "^2.6.5",
+    "paper": "^0.12.3",
+    "vue": "^2.6.10"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-preact": "^1.1.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "node-sass": "^4.9.0",
-    "parcel-bundler": "^1.6.2"
-  }
+    "@vue/cli-plugin-babel": "^3.12.0",
+    "@vue/cli-plugin-eslint": "^3.12.0",
+    "@vue/cli-service": "^3.12.0",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.0",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/standard"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
 }

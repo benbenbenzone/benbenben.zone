@@ -1,11 +1,24 @@
-About
-----
+# benbenben.zone
 
-Yet another simple boilerplate web app. Preact, Parcel, and Babel.
+## Project setup
+```
+npm install
+```
 
-`yarn` and either `yarn build` or `yarn start`
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-License
-----
+### Compiles and minifies for production
+```
+npm run build
+```
 
-MIT
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
