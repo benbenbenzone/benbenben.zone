@@ -11,10 +11,7 @@ import Simulator from '../physics/Simulator'
 import Api from '../api/index'
 
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
+  name: 'HomeLogo',
   mounted() {
 
     // SAMPLE PROJECTS CALL
