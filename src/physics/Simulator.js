@@ -29,10 +29,13 @@ class Simulator {
     return this.vertices 
   }
   update (dt) {
-    this.updateVertices()
     if (this.springs) {
       this.updateSprings()
     }
+    this.updateVertices()
+    // if (this.springs) {
+    //   this.updateSprings()
+    // }
     // console.log(this.vertices[0], this.springVertices[0])
     // for(var i = 0; i < 10; i++) {
     if (this.edges) {
@@ -47,7 +50,7 @@ class Simulator {
     for(const vert of vertices) {
       const springVert = new Vertex(vert.position, false)
       springVertices.push(springVert)
-      springs.push(new Spring(springVert, vert, 0.1, 0.97,0.1))
+      springs.push(new Spring(springVert, vert, 0.01, 0.98  ,1))
     }
 
     return {
@@ -81,7 +84,9 @@ class Simulator {
 
   updateSprings() {
     for (const spring of this.springs) {
-      spring.update()
+      if (!spring.resting()) {
+        spring.update()
+      }
     }
   }
 
@@ -93,8 +98,10 @@ class Simulator {
 
     if (this.springVertices) {
       for (const springVertex of this.springVertices) {
-        springVertex.update()
-        springVertex.constrain()
+        // if (!springVertex.resting()) {
+          springVertex.update()
+          springVertex.constrain()
+        // }
       }
     }
   }

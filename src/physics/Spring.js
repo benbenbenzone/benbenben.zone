@@ -55,7 +55,27 @@ class Spring {
         this.b.velocity.x  -= a2b.x
         this.b.velocity.y  -= a2b.y
       }
+
+      // console.log(fdamping, this.a.velocity)
       return
+    }
+
+    resting () {
+      const a = this.a;
+      const b = this.b;
+      const l = this.length;
+      
+
+      const aEqualB = ((a.position.x === b.position.x) && (a.position.y === b.position.y))
+      const bToA = MathUtil.distance(b, a)
+      const aToB = MathUtil.distance(a, b)
+
+      const isResting =  (a.fixed && b.fixed)
+        || (a.fixed && (l === 0 ? aEqualB : bToA <= l) && b.resting())
+        || (b.fixed && (l === 0 ? aEqualB : aToB <= l) && a.resting())
+
+      return isResting
+      console.log(a.resting(), b.resting())
     }
 }
   
