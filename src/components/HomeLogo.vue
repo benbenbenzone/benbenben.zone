@@ -37,7 +37,7 @@ export default {
 
         for (const [letter, points] of Object.entries(logoPoints)) {
           this['path' + letter.toUpperCase()] = this.initializePath(points) 
-          this['sim' + letter.toUpperCase()] = new Simulator(points, false, true)
+          this['sim' + letter.toUpperCase()] = new Simulator(points, true, false)
         }
 
         HomeLogoProject.view.onFrame = this.updateLogo.bind(this)
@@ -70,19 +70,19 @@ export default {
       // }
 
       // DRAWING  SPRING
-      // for (let i = 0; i < this.simE.vertices.length; i++) {
-      //   this.pathE.segments[i].point = new Point(this.simE.springVertices[i].position.x, this.simE.springVertices[i].position.y)
-      // }
+      for (let i = 0; i < this.simE.vertices.length; i++) {
+        this.pathE.segments[i].point = new Point(this.simE.springVertices[i].position.x, this.simE.springVertices[i].position.y)
+      }
 
       // DRAWING NON SPRING
-      for (let i = 0; i < this.simE.vertices.length; i++) {
-        this.pathE.segments[i].point = new Point(this.simE.vertices[i].position.x, this.simE.vertices[i].position.y)
-      }
+      // for (let i = 0; i < this.simE.vertices.length; i++) {
+      //   this.pathE.segments[i].point = new Point(this.simE.vertices[i].position.x, this.simE.vertices[i].position.y)
+      // }
 
 
-      for (let i = 0; i < this.simN.vertices.length; i++) {
-        this.pathN.segments[i].point = new Point(this.simN.vertices[i].position.x, this.simN.vertices[i].position.y)
-      }
+      // for (let i = 0; i < this.simN.vertices.length; i++) {
+      //   this.pathN.segments[i].point = new Point(this.simN.vertices[i].position.x, this.simN.vertices[i].position.y)
+      // }
 
       // console.log(this.pathB.segments[0].point, this.simB.vertices[0].position.x, this.simB.vertices[0].position.y)
 
