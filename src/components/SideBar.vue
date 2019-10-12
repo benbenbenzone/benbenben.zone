@@ -1,11 +1,11 @@
 <template>
   <div class="side-bar">
-    <div class="side-bar__tab" v-on:click="$emit(tabClickEventName)">
-      <div class="side-bar__tab-title">
+    <div class="side-bar__tab" v-bind:class="{ 'side-bar__tab--left': direction === 'right', 'side-bar__tab--right': direction === 'left' }" v-on:click="$emit(tabClickEventName)">
+      <div class="side-bar__tab-title" v-bind:class="{ 'side-bar__tab-title--top': direction === 'right', 'side-bar__tab-title--bottom': direction === 'left' }">
         {{title}}        
       </div>
-      <slot></slot>
     </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -24,14 +24,15 @@ export default {
 <style scoped lang="scss">
 .side-bar {
   z-index: $z-index-side-bar;
-  background: $black;
+
   width: 100%;
   height: 100%;
+
+  background: $black;
 
   &__tab {
     position: absolute;
     top: 0;
-    left: -5rem;
 
     width: 5rem;
     height: 100%;
@@ -39,17 +40,47 @@ export default {
 
     cursor: pointer;
 
-    border-left: 4px solid $white;
+    background: $black;
+
+    &--left {
+      left: -5rem;
+
+      border-left: 4px solid $white;
+    }
+
+    &--right {
+      right: -5rem;
+
+      border-right: 4px solid $white;
+    }
+
   }
 
   &__tab-title {
-    color: $white;
-    margin-left: 85%;
+    position: absolute;
 
-    transform: rotate(90deg);
-    transform-origin: 0% 0%;
+    color: $white;
 
     font-size: 4.5rem;
+
+    &--top {
+      top: 0;
+
+      margin-left: 75%;
+
+      transform: rotate(90deg);
+      transform-origin: top left;
+    }
+
+    &--bottom {
+      bottom: 0;
+
+      margin-bottom: 25%;
+      margin-left: 90%;
+
+      transform: rotate(-90deg);
+      transform-origin: bottom left;
+    }
   }
 }
 </style>
