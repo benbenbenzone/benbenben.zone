@@ -50,7 +50,7 @@ class Simulator {
     for(const vert of vertices) {
       const springVert = new Vertex(vert.position, false)
       springVertices.push(springVert)
-      springs.push(new Spring(springVert, vert, 0.1, 0.98  ,0.1))
+      springs.push(new Spring(springVert, vert, 0.1, 0.05  ,1))
     }
 
     return {
@@ -110,7 +110,6 @@ class Simulator {
   updateVertices (pos) {
     // console.log(pos)
     for (const vertex of this.vertices) {
-      // console.log(pos)
       vertex.update(pos)
       vertex.constrain()
     }
