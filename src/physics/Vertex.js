@@ -13,18 +13,13 @@ class Vertex {
       }
     }
   
-    update () {
+    update (pos) {
       if (!this.fixed) {
-        this.velocity.y += 0.01
         const next = {
           x : this.position.x + this.velocity.x,
           y : this.position.y + this.velocity.y,
         }
-        // if (this.fixed) {
-        // }
-        // if (this.next.x < (this.originalPosition.x + 300)) {
-        //   next.y += 0.1;
-        // }
+
         this.prev = this.position
         this.position = next
         this.velocity = {
@@ -33,8 +28,11 @@ class Vertex {
         }
 
       } else {
-        if (this.position.x < (this.originalPosition.x + 300)) {
-          this.position.x += 10;
+        if (pos.x !== undefined) {
+          console.log(pos)
+          this.position.x = this.originalPosition.x + Math.cos((Date.now()/10) * Math.PI) *500 * (pos.x*pos.y)/2
+          // this.position.y = this.originalPosition.x + Math.sin((Date.now()/10) * Math.PI) *500 * (pos.y/1000)
+
         }
       }
  

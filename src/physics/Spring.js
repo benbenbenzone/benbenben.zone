@@ -56,7 +56,6 @@ class Spring {
         this.b.velocity.y  -= a2b.y
       }
 
-      // console.log(fdamping, this.a.velocity)
       return
     }
 

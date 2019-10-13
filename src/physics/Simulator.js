@@ -28,11 +28,11 @@ class Simulator {
   getVertices () {
     return this.vertices 
   }
-  update (dt) {
+  update (pos) {
     if (this.springs) {
       this.updateSprings()
     }
-    this.updateVertices()
+    this.updateVertices(pos)
     // if (this.springs) {
     //   this.updateSprings()
     // }
@@ -50,7 +50,7 @@ class Simulator {
     for(const vert of vertices) {
       const springVert = new Vertex(vert.position, false)
       springVertices.push(springVert)
-      springs.push(new Spring(springVert, vert, 0.01, 0.98  ,1))
+      springs.push(new Spring(springVert, vert, 0.1, 0.98  ,0.1))
     }
 
     return {
@@ -59,6 +59,23 @@ class Simulator {
     }
   }
 
+  isResting () {
+    let allResting = true;
+    for (const vertex of this.vertices) {
+      allResting = vertex.resting()
+    }
+
+    if (this.springVertices) {
+      for (const springVertex of this.springVertices) {
+        // if (!springVertex.resting()) {
+          allResting = springVertex.resting()
+          // springVertex.constrain()
+        // }
+      }
+    }
+    return allResting
+  }
+ 
   createVertices (points) {
     const verts = []
     for(const point of points) {
@@ -90,9 +107,11 @@ class Simulator {
     }
   }
 
-  updateVertices () {
+  updateVertices (pos) {
+    // console.log(pos)
     for (const vertex of this.vertices) {
-      vertex.update()
+      // console.log(pos)
+      vertex.update(pos)
       vertex.constrain()
     }
 
