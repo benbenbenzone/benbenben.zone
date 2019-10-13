@@ -13,13 +13,6 @@ import Api from '../api/index'
 export default {
   name: 'HomeLogo',
   mounted() {
-
-    // SAMPLE PROJECTS CALL
-    Api.getProjects().then((res) => {
-      console.log(res)
-    })
-
-
     const canvas  = document.getElementById('homelogo')
     const HomeLogoProject = new Project(canvas)
     const logoPoints = {
