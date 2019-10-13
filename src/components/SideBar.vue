@@ -5,7 +5,7 @@
         {{title}}        
       </div>
     </div>
-    <slot></slot>
+      <slot></slot>
   </div>
 </template>
 
@@ -31,6 +31,7 @@ export default {
   background: $black;
 
   &__tab {
+    box-sizing: border-box;
     position: absolute;
     top: 0;
 
@@ -66,7 +67,7 @@ export default {
     &--top {
       top: 0;
 
-      margin-left: 75%;
+      margin-left: 85%;
 
       transform: rotate(90deg);
       transform-origin: top left;
@@ -75,7 +76,7 @@ export default {
     &--bottom {
       bottom: 0;
 
-      margin-bottom: 25%;
+      margin-bottom: 10%;
       margin-left: 90%;
 
       transform: rotate(-90deg);

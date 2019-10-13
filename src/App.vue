@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-    <div class="projects" v-bind:class="{ 'projects--open': showProjects }">
+    <div class="projects-section" v-bind:class="{ 'projects-section--open': showProjects }">
       <SideBar title="PROJECTS" tabClickEventName="projects-tab-click" v-on:projects-tab-click="openProjects" direction="right">
-        PROJECTS
+        <Projects />
       </SideBar>
     </div>
-    <div class="about" v-bind:class="{ 'about--open': showAbout }">
-      <!-- <SideBar title="ABOUT" tabClickEventName="about-tab-click" v-on:about-tab-click="openAbout" direction="left">
+    <div class="about-section" v-bind:class="{ 'about-section--open': showAbout }">
+      <SideBar title="ABOUT" tabClickEventName="about-tab-click" v-on:about-tab-click="openAbout" direction="left">
         About
-      </SideBar> -->
+      </SideBar>
     </div>
     <HomeLogo/>
   </div>
@@ -17,11 +17,12 @@
 <script>
 import HomeLogo from './components/HomeLogo.vue'
 import SideBar from './components/SideBar.vue'
+import Projects from './components/Projects'
 
 
 export default {
   name: 'app',
-  data: function () {
+  data () {
     return {
       showProjects: false,
       showAbout: false
@@ -29,14 +30,15 @@ export default {
   },
   components: {
     HomeLogo,
-    SideBar
+    SideBar,
+    Projects
   },
   methods: {
-    openProjects: function() {
+    openProjects () {
       this.showProjects = true
       this.showAbout = false
     },
-    openAbout: function() {
+    openAbout () {
       this.showAbout = true
       this.showProjects = false
     }
@@ -73,7 +75,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.projects {
+.projects-section {
   position: absolute;
   top: 0;
   right: -50%;
@@ -88,7 +90,7 @@ html, body {
   }
 }
 
-.about {
+.about-section {
   position: absolute;
   top: 0;
   left: -50%;
