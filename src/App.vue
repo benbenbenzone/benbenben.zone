@@ -6,9 +6,9 @@
       </SideBar>
     </div>
     <div class="about" v-bind:class="{ 'about--open': showAbout }">
-      <SideBar title="ABOUT" tabClickEventName="about-tab-click" v-on:about-tab-click="openAbout" direction="left">
+      <!-- <SideBar title="ABOUT" tabClickEventName="about-tab-click" v-on:about-tab-click="openAbout" direction="left">
         About
-      </SideBar>
+      </SideBar> -->
     </div>
     <HomeLogo/>
   </div>
