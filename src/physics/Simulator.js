@@ -33,15 +33,10 @@ class Simulator {
       this.updateSprings()
     }
     this.updateVertices(pos)
-    // if (this.springs) {
-    //   this.updateSprings()
-    // }
-    // console.log(this.vertices[0], this.springVertices[0])
-    // for(var i = 0; i < 10; i++) {
+   
     if (this.edges) {
       this.updateEdges()
     }
-    // }
   }
 
   createSprings (vertices) {
@@ -108,7 +103,6 @@ class Simulator {
   }
 
   updateVertices (pos) {
-    // console.log(pos)
     for (const vertex of this.vertices) {
       vertex.update(pos)
       vertex.constrain()

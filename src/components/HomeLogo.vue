@@ -182,7 +182,6 @@ export default {
 
     updateLogo(e) {
       if (Date.now() - this.lastMouseMove > 10) {
-        console.log('reset')
         this.mouseDx = 0
         this.mouseDy = 0
 
@@ -199,14 +198,7 @@ export default {
       this.ben3.simulators.b.update({x: -this.mouseDx, y: -this.mouseDy})
       this.ben3.simulators.e.update({x: -this.mouseDx, y: this.mouseDy})
       this.ben3.simulators.n.update({x: -this.mouseDx, y: -this.mouseDy})
-      // this.ben1.simulators.e.update(this.ben1.states[this.ben1.stateIndex])
-      // this.ben1.simulators.n.update(this.ben1.states[this.ben1.stateIndex])
 
-      
-
-      // this.simB.update(e)
-      // this.simE.update(e)
-      // this.simN.update(e)
       this.drawLogo()
     },
 

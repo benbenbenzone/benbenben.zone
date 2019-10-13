@@ -29,7 +29,6 @@ class Vertex {
 
       } else {
         if (pos.x !== undefined) {
-          console.log(pos)
           this.position.x = this.originalPosition.x + Math.cos((Date.now()/10) * Math.PI) *500 * (pos.x*pos.y)/2
           // this.position.y = this.originalPosition.x + Math.sin((Date.now()/10) * Math.PI) *500 * (pos.y/1000)
 
