@@ -1,0 +1,10 @@
+{
+    "csscomb.preset": "yandex",
+    "editor.tabSize": 2,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "html",
+        "vue"
+    ]
+}
