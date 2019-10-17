@@ -19,7 +19,6 @@ import HomeLogo from './components/HomeLogo.vue'
 import SideBar from './components/SideBar.vue'
 import Projects from './components/Projects'
 
-
 export default {
   name: 'app',
   data () {

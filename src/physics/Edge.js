@@ -1,13 +1,11 @@
 import MathUtil from '../MathUtil'
-import { throws } from 'assert'
-class Edge {
 
-  constructor(a, b, length) {
+class Edge {
+  constructor (a, b, length) {
     this.a = a
     this.b = b
 
-    this.length = length ? length : MathUtil.distance(a.position, b.position)
-    this.length;
+    this.length = length || MathUtil.distance(a.position, b.position)
   }
 
   update () {
@@ -26,7 +24,6 @@ class Edge {
     this.b.position.x += offsetX
     this.b.position.y += offsetY
   }
-
 }
-  
+
 export default Edge
