@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <div class="projects-section" v-bind:class="{ 'projects-section--open': showProjects }">
-      <SideBar title="PROJECTS" tabClickEventName="projects-tab-click" v-on:projects-tab-click="openProjects" direction="right">
+      <SideBar title="PROJECTS" tabClickEventName="projects-tab-click" v-on:projects-tab-click="openProjects" v-closable="{ exclude: [], handler: 'closeProjects'}" position="right">
         <Projects />
       </SideBar>
     </div>
     <div class="about-section" v-bind:class="{ 'about-section--open': showAbout }">
-      <SideBar title="ABOUT" tabClickEventName="about-tab-click" v-on:about-tab-click="openAbout" direction="left">
+      <SideBar title="ABOUT" tabClickEventName="about-tab-click" v-on:about-tab-click="openAbout" v-closable="{ exclude: [], handler: 'closeAbout'}" position="left">
         About
       </SideBar>
     </div>
@@ -18,8 +18,6 @@
 import HomeLogo from './components/HomeLogo.vue'
 import SideBar from './components/SideBar.vue'
 import Projects from './components/Projects'
-
-
 export default {
   name: 'app',
   data () {
@@ -38,9 +36,15 @@ export default {
       this.showProjects = true
       this.showAbout = false
     },
+    closeProjects () {
+      this.showProjects = false
+    },
     openAbout () {
       this.showAbout = true
       this.showProjects = false
+    },
+    closeAbout () {
+      this.showAbout = false
     }
   }
 }

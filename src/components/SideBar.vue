@@ -1,8 +1,8 @@
 <template>
-  <div class="side-bar">
-    <div class="side-bar__tab" v-bind:class="{ 'side-bar__tab--left': direction === 'right', 'side-bar__tab--right': direction === 'left' }" v-on:click="$emit(tabClickEventName)">
-      <div class="side-bar__tab-title" v-bind:class="{ 'side-bar__tab-title--top': direction === 'right', 'side-bar__tab-title--bottom': direction === 'left' }">
-        {{title}}        
+  <div class="side-bar" v-bind:class="{ 'side-bar--right': position === 'right', 'side-bar--left': position === 'left' }">
+    <div class="side-bar__tab" v-bind:class="{ 'side-bar__tab--left': position === 'right', 'side-bar__tab--right': position === 'left' }" v-on:click="$emit(tabClickEventName)">
+      <div class="side-bar__tab-title" v-bind:class="{ 'side-bar__tab-title--top': position === 'right', 'side-bar__tab-title--bottom': position === 'left' }">
+        {{title}}
       </div>
     </div>
       <slot></slot>
@@ -13,11 +13,11 @@
 export default {
   name: 'SideBar',
   props: {
-    direction: String,
+    position: String,
     title: String,
     tabClickEventName: String
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -25,16 +25,25 @@ export default {
 .side-bar {
   z-index: $z-index-side-bar;
 
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
 
   background: $black;
 
+  &--left {
+    border-right: 4px solid $white;
+  }
+
+  &--right {
+    border-left: 4px solid $white;
+  }
+
   &__tab {
-    box-sizing: border-box;
     position: absolute;
     top: 0;
 
+    box-sizing: border-box;
     width: 5rem;
     height: 100%;
     padding: 0.5rem;
