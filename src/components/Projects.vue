@@ -1,25 +1,30 @@
 <template>
   <div class="projects">
-    <div v-for="(project, index) in projects" v-bind:key="project.id" v-on:click="openProject(index)" class="project-outer" 
-      v-bind:class="[index+1 % 2 == 0 ? 'project-outer--bottom' : 'project-outer--top', selectedProject === index ? 'project-outer--open' : 'project-outer--close']">
-      <div class="project-inner" v-bind:class="[index+1 % 2 == 0 ? 'project-inner--bottom' : 'project-inner--top', selectedProject === index ? 'project-inner--open' : 'project-inner--close']">
+    <div v-for="(project, index) in projects" v-bind:key="project.id" v-on:click="openProject(index)" class="project-outer"
+      v-bind:class="[(index + 1) % 2 === 0 ? 'project-outer--bottom' : 'project-outer--top', selectedProject === index ? 'project-outer--open' : 'project-outer--close']">
+      <div class="project-inner" v-bind:class="[(index + 1) % 2 === 0 ? 'project-inner--bottom' : 'project-inner--top', selectedProject === index ? 'project-inner--open' : 'project-inner--close']">
+        <Project v-bind:project="project" v-bind:position="(index + 1) % 2 == 0 ? 'bottom' : 'top'"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Api from '../api';
+import Api from '../api'
+import Project from './Project'
 
 export default {
   name: 'Projects',
+  components: {
+    Project
+  },
   data () {
     return {
       projects: [],
       selectedProject: -1
     }
   },
-  mounted() {
+  mounted () {
     Api.getProjects().then((projects) => {
       this.projects = projects
     })
@@ -34,36 +39,44 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.projects {
-
-}
+$triangle-height: 300px;
+$content-height: 500px;
+$border-width: 3px;
 
 .project-inner {
   position: relative;
-
-  height: 400px;
 
   background: $black;
 
   transition: all 0.3s;
 
   &--close {
-    height: 400px;
+    height: $triangle-height - $border-width;
   }
 
   &--open {
-    height: 700px;
+    height: $triangle-height + $content-height - $border-width;
   } 
 
   &--top {
     &.project-inner--close {
-      clip-path: polygon(3px 0, 3px 0, 100% 0, 100% calc(100% - 3px));
+      clip-path: polygon(0 0, 0 0, 100% 0, 100% 100%);
     }
     
     &.project-inner--open {
-      clip-path: polygon(3px 500px, 3px 0, 100% 0, 100% calc(100% - 3px));      
+      clip-path: polygon(0 $content-height - $border-width, 0 0, 100% 0, 100% 100%);
     }
   }
+
+  // &--bottom {
+  //   &.project-outer--close {
+  //     clip-path: polygon(0 100%, 0 100%, 0 0, calc(100% + 10px) 100%);
+  //   }
+
+  //   &.project-outer--open {
+  //     clip-path: polygon(0 100%, 0 0, 100% $triangle-height, 100% 100%);
+  //   }
+  // }
 }
 
 .project-outer {
@@ -74,20 +87,32 @@ export default {
   transition: all 0.3s;
 
   &--close {
-    height: 400px;
+    height: $triangle-height;
   }
 
   &--open {
-    height: 700px;
+    height: $content-height + $triangle-height;
   }
 
   &--top {
     &.project-outer--close {
-      clip-path: polygon(0 0, 0 0, 100% 0, 100% 100%);
+      clip-path: polygon(0 $border-width, 0 0, 100% 0, 100% 100%);
     }
 
     &.project-outer--open {
-      clip-path: polygon(0 500px, 0 0, 100% 0, 100% 100%);
+      clip-path: polygon(0 $content-height, 0 0, 100% 0, 100% 100%);
+    }
+  }
+
+  &--bottom {
+    top: -$triangle-height + $border-width;
+
+    &.project-outer--close {
+      clip-path: polygon(0 100%, 0 0, calc(100% + 10px) 100%, calc(100% + 10px) 100%);
+    }
+
+    &.project-outer--open {
+      clip-path: polygon(0 100%, 0 0, 100% $triangle-height, 100% 100%);
     }
   }
 }

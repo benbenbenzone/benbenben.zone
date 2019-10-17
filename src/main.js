@@ -1,7 +1,10 @@
 import Vue from 'vue'
+import { Closable } from './directives/closable'
 import App from './App.vue'
 
 Vue.config.productionTip = false
+
+Vue.directive('closable', Closable)
 
 new Vue({
   render: h => h(App)
