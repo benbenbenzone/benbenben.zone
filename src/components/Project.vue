@@ -4,13 +4,23 @@
       <span class="project__client">{{project.client}}</span><br />
       <span class="project__type">{{project.type}}</span>
     </div>
-    <div class="project__media" v-bind:class="[ position === 'top' ? 'project__media--top' : 'project__media--bottom' ]">
-      <carousel v-slot:default="slotProps" v-bind:num-slides="mediaUrls.length">
-        <slide v-for="(url, index) in mediaUrls" v-bind:key="url" v-bind:order="slotProps.getOrder(index)">
-          <img class="project__media-image" v-bind:class="{ 'project__media-image--blur': !open }" v-bind:src="url" />
-        </slide>
-      </carousel>
-    </div>
+    <!-- <div class="project__media-info">
+      <div class="project__info">
+        HIHIHIHIH
+      </div> -->
+      <div class="project__media" v-bind:class="{ 'project__media--top': position === 'top', 'project__media--bottom':  position === 'bottom', 'project__media--blur': !open }">
+        <div class="project__info">
+          HELLOOOOOO
+        </div>
+        <div v-bind:style="{ flex: 1 }">
+          <carousel v-slot:default="slotProps" v-bind:num-slides="mediaUrls.length">
+            <slide v-for="(url, index) in mediaUrls" v-bind:key="url" v-bind:order="slotProps.getOrder(index)">
+              <img class="project__media-image" v-lazy="url" />
+            </slide>
+          </carousel>
+        </div>
+      </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -81,6 +91,14 @@ export default {
     width: 100%;
     height: 50%;
     display: flex;
+    filter: blur(0);
+    flex-direction: column;
+
+    transition: filter 0.3s;
+
+    &--blur {
+      filter: blur(3px);
+    }
 
     &--top {
       top: 8rem;
@@ -97,12 +115,7 @@ export default {
     padding: 5px;
     width: 100%;
     -webkit-user-drag: none;
-    filter: blur(0);
     transition: all 0.3s;
-
-    &--blur {
-      filter: blur(5px);
-    }
   }
 }
 </style>
