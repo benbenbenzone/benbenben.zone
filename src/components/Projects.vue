@@ -1,5 +1,5 @@
 <template>
-  <div class="projects">
+  <div class="projects" v-closable="{ exclude: [], handler: 'resetProjects'}">
     <div v-for="(project, index) in projects" v-bind:key="project.id" v-on:click="openProject(index)" class="project-outer"
       v-bind:class="[(index + 1) % 2 === 0 ? 'project-outer--bottom' : 'project-outer--top', selectedProject === index ? 'project-outer--open' : 'project-outer--close']">
       <div class="project-inner" v-bind:class="[(index + 1) % 2 === 0 ? 'project-inner--bottom' : 'project-inner--top', selectedProject === index ? 'project-inner--open' : 'project-inner--close']">
@@ -32,6 +32,9 @@ export default {
   methods: {
     openProject (projectIdx) {
       this.selectedProject = projectIdx
+    },
+    resetProjects () {
+      this.selectedProject = -1
     }
   }
 };
@@ -105,10 +108,10 @@ $border-width: 3px;
   }
 
   &--bottom {
-    top: -$triangle-height + $border-width;
+    margin-top: -$triangle-height + $border-width;
 
     &.project-outer--close {
-      clip-path: polygon(0 100%, 0 0, calc(100% + 10px) 100%, calc(100% + 10px) 100%);
+      clip-path: polygon(0 100%, 0 0, calc(100% + 10px) 100%, 100% 100%);
     }
 
     &.project-outer--open {

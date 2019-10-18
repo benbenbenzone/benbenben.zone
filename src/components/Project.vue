@@ -5,9 +5,9 @@
       <span class="project__type">{{project.type}}</span>
     </div>
     <div class="project__media" v-bind:class="[ position === 'top' ? 'project__media--top' : 'project__media--bottom' ]">
-      <carousel v-bind:per-page="1" v-bind:centerMode="true">
-        <slide v-for="url in mediaUrls" v-bind:key="url">
-          <img v-bind:src="url" class="project__media-image"/>
+      <carousel v-slot:default="slotProps">
+        <slide v-for="(url, index) in mediaUrls" v-bind:key="url" v-bind:orderFunc="slotProps.getOrder" v-bind:idx="index">
+          <img class="project__media-image" v-bind:src="url" />
         </slide>
       </carousel>
     </div>
@@ -16,7 +16,8 @@
 
 <script>
 import config from '../api/config'
-import { Carousel, Slide } from 'vue-carousel'
+import Carousel from './carousel/Carousel'
+import Slide from './carousel/Slide'
 
 export default {
   name: 'Project',
@@ -31,7 +32,6 @@ export default {
   computed: {
     mediaUrls () {
       const computed = this.project.media.map((mediaObj) => {
-        console.log(mediaObj.url)
         return config.API_URL + mediaObj.url
       })
       
@@ -94,7 +94,8 @@ export default {
   }
 
   &__media-image {
-    width: 80%;
+    width: 100%;
+    -webkit-user-drag: none;
   }
 }
 </style>

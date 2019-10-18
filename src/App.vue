@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <div class="projects-section" v-bind:class="{ 'projects-section--open': showProjects }">
-      <SideBar title="PROJECTS" tabClickEventName="projects-tab-click" v-on:projects-tab-click="openProjects" v-closable="{ exclude: [], handler: 'closeProjects'}" position="right">
+      <SideBar title="PROJECTS" tabClickEventName="projects-tab-click" v-on:projects-tab-click="toggleProjects" v-closable="{ exclude: [], handler: 'closeProjects'}" position="right">
         <Projects />
       </SideBar>
     </div>
     <div class="about-section" v-bind:class="{ 'about-section--open': showAbout }">
-      <SideBar title="ABOUT" tabClickEventName="about-tab-click" v-on:about-tab-click="openAbout" v-closable="{ exclude: [], handler: 'closeAbout'}" position="left">
+      <SideBar title="ABOUT" tabClickEventName="about-tab-click" v-on:about-tab-click="toggleAbout" v-closable="{ exclude: [], handler: 'closeAbout'}" position="left">
         About
       </SideBar>
     </div>
@@ -32,16 +32,24 @@ export default {
     Projects
   },
   methods: {
-    openProjects () {
-      this.showProjects = true
-      this.showAbout = false
+    toggleProjects () {
+      if (this.showProjects) {
+        this.showProjects = false
+      } else {
+        this.showProjects = true
+        this.showAbout = false
+      }
     },
     closeProjects () {
       this.showProjects = false
     },
-    openAbout () {
-      this.showAbout = true
-      this.showProjects = false
+    toggleAbout () {
+      if (this.showAbout) {
+        this.showAbout = false
+      } else {
+        this.showAbout = true
+        this.showProjects = false
+      }
     },
     closeAbout () {
       this.showAbout = false
