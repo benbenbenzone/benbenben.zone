@@ -11,7 +11,7 @@
     "core-js": "^2.6.5",
     "paper": "^0.12.3",
     "vue": "^2.6.10",
-    "vue-carousel": "^0.18.0"
+    "vue2-touch-events": "^2.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.0",
