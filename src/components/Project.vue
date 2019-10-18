@@ -35,7 +35,7 @@ export default {
       const computed = this.project.media.map((mediaObj) => {
         return config.API_URL + mediaObj.url
       })
-      
+
       return computed
     }
   }
