@@ -31,6 +31,8 @@ export default {
 
   background: $black;
 
+  overflow-y: auto;
+
   &--left {
     border-right: 4px solid $white;
   }

@@ -1,9 +1,10 @@
 <template>
   <div class="projects" v-closable="{ exclude: [], handler: 'resetProjects'}">
     <div v-for="(project, index) in projects" v-bind:key="project.id" v-on:click="openProject(index)" class="project-outer"
-      v-bind:class="[(index + 1) % 2 === 0 ? 'project-outer--bottom' : 'project-outer--top', selectedProject === index ? 'project-outer--open' : 'project-outer--close']">
+      v-bind:class="[(index + 1) % 2 === 0 ? 'project-outer--bottom' : 'project-outer--top', selectedProject === index ? 'project-outer--open' : 'project-outer--close']"
+      v-bind:style="{ zIndex: projects.length - index }">
       <div class="project-inner" v-bind:class="[(index + 1) % 2 === 0 ? 'project-inner--bottom' : 'project-inner--top', selectedProject === index ? 'project-inner--open' : 'project-inner--close']">
-        <Project v-bind:project="project" v-bind:position="(index + 1) % 2 == 0 ? 'bottom' : 'top'"/>
+        <Project v-bind:project="project" v-bind:position="(index + 1) % 2 == 0 ? 'bottom' : 'top'" v-bind:open="selectedProject === index"/>
       </div>
     </div>
   </div>
@@ -70,16 +71,6 @@ $border-width: 3px;
       clip-path: polygon(0 $content-height - $border-width, 0 0, 100% 0, 100% 100%);
     }
   }
-
-  // &--bottom {
-  //   &.project-outer--close {
-  //     clip-path: polygon(0 100%, 0 100%, 0 0, calc(100% + 10px) 100%);
-  //   }
-
-  //   &.project-outer--open {
-  //     clip-path: polygon(0 100%, 0 0, 100% $triangle-height, 100% 100%);
-  //   }
-  // }
 }
 
 .project-outer {
@@ -108,10 +99,10 @@ $border-width: 3px;
   }
 
   &--bottom {
-    margin-top: -$triangle-height + $border-width;
+    margin-top: -$triangle-height;
 
     &.project-outer--close {
-      clip-path: polygon(0 100%, 0 0, calc(100% + 10px) 100%, 100% 100%);
+      clip-path: polygon(0 100%, 0 0, 100% 100%, 100% 100%);
     }
 
     &.project-outer--open {

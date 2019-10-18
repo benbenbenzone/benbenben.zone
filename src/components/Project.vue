@@ -5,9 +5,9 @@
       <span class="project__type">{{project.type}}</span>
     </div>
     <div class="project__media" v-bind:class="[ position === 'top' ? 'project__media--top' : 'project__media--bottom' ]">
-      <carousel v-slot:default="slotProps">
-        <slide v-for="(url, index) in mediaUrls" v-bind:key="url" v-bind:orderFunc="slotProps.getOrder" v-bind:idx="index">
-          <img class="project__media-image" v-bind:src="url" />
+      <carousel v-slot:default="slotProps" v-bind:num-slides="mediaUrls.length">
+        <slide v-for="(url, index) in mediaUrls" v-bind:key="url" v-bind:order="slotProps.getOrder(index)">
+          <img class="project__media-image" v-bind:class="{ 'project__media-image--blur': !open }" v-bind:src="url" />
         </slide>
       </carousel>
     </div>
@@ -23,7 +23,8 @@ export default {
   name: 'Project',
   props: {
     position: String,
-    project: Object
+    project: Object,
+    open: Boolean
   },
   components: {
     Slide,
@@ -35,7 +36,6 @@ export default {
         return config.API_URL + mediaObj.url
       })
       
-      // console.log('helloo')
       return computed
     }
   }
@@ -94,8 +94,15 @@ export default {
   }
 
   &__media-image {
+    padding: 5px;
     width: 100%;
     -webkit-user-drag: none;
+    filter: blur(0);
+    transition: all 0.3s;
+
+    &--blur {
+      filter: blur(5px);
+    }
   }
 }
 </style>

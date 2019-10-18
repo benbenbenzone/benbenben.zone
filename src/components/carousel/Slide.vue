@@ -8,15 +8,7 @@
 export default {
   name: 'Slide',
   props: {
-    idx: Number,
-    orderFunc: Function
-  },
-  computed: {
-    order () {
-      console.log(this.idx)
-      console.log(this.orderFunc(this.idx))
-      return this.orderFunc(this.idx)
-    }
+    order: Number
   }
 }
 </script>

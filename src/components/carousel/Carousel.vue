@@ -13,6 +13,9 @@
 // https://medium.com/@incubation.ff/build-your-own-css-carousel-in-react-part-one-86f71f6670ca
 export default {
   name: 'Carousel',
+  props: {
+    numSlides: Number
+  },
   data () {
     return {
       position: 0,
@@ -21,16 +24,10 @@ export default {
   },
   methods: {
     getOrder (itemIndex) {
-      // console.log(itemIndex)
       const position = this.position
       const children = this.$children
-      const numItems = children.length || 1
-      // console.log(this.$children.length)
-      // console.log(this.$children)
-      // console.log(((numItems + 1) - position + itemIndex) % numItems)
-      // console.log('POSITION', position)
-      // console.log('NUM ITEMS', numItems)
-      // console.log('ITEM INDEX', itemIndex)
+      const numItems = this.numSlides || children.length || 1
+
       return ((numItems + 1) - position + itemIndex) % numItems
     },
     nextSlide () {
@@ -64,6 +61,7 @@ export default {
       }
     },
     getTransform () {
+      if (this.numSlides === 1) return 'translateX(0%)'
       if (!this.sliding) return 'translateX(calc(-80% - 20px))'
       if (this.direction === 'prev') return 'translateX(calc(2 * (-80% - 20px)))'
       return 'translateX(0%)'
