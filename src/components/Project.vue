@@ -31,11 +31,8 @@ export default {
   computed: {
     mediaUrls () {
       const computed = this.project.media.map((mediaObj) => {
-        console.log(mediaObj.url)
         return config.API_URL + mediaObj.url
       })
-      
-      // console.log('helloo')
       return computed
     }
   }

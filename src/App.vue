@@ -7,7 +7,7 @@
     </div>
     <div class="about-section" v-bind:class="{ 'about-section--open': showAbout }">
       <SideBar title="ABOUT" tabClickEventName="about-tab-click" v-on:about-tab-click="openAbout" v-closable="{ exclude: [], handler: 'closeAbout'}" position="left">
-        About
+        <About />
       </SideBar>
     </div>
     <HomeLogo/>
@@ -18,6 +18,8 @@
 import HomeLogo from './components/HomeLogo.vue'
 import SideBar from './components/SideBar.vue'
 import Projects from './components/Projects'
+import About from './components/About'
+
 export default {
   name: 'app',
   data () {
@@ -29,7 +31,8 @@ export default {
   components: {
     HomeLogo,
     SideBar,
-    Projects
+    Projects,
+    About
   },
   methods: {
     openProjects () {

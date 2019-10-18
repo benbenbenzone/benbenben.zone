@@ -54,10 +54,14 @@ class Vertex {
     }
   }
 
+  setPosition (pos) {
+    this.originalPosition.x = pos.x
+    this.originalPosition.y = pos.y
+  }
+
   translateOrigin (translation) {
     this.originalPosition.x += translation.x
     this.originalPosition.y += translation.y
-    // this.originalPosition.y = (translation.y - this.originalPosition.y)
   }
 
   resting () {

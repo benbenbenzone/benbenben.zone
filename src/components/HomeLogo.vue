@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import paper, { Project, Path, Point } from 'paper'
+import { Project, Path, Point } from 'paper'
 import BenSvg from '../assets/ben.svg'
 import Simulator from '../physics/Simulator'
 
@@ -19,14 +19,13 @@ export default {
 
     this.benBounds = null
 
-    document.onmousemove = function (e) {
+    document.getElementById('homelogo').onmousemove = function (e) {
       this.mouseDx = e.clientX - this.mouseX
       this.mouseDy = e.clientY - this.mouseY
       this.mouseX = e.clientX
       this.mouseY = e.clientY
       this.lastMouseMove = Date.now()
     }.bind(this)
-
 
     const canvas = document.getElementById('homelogo')
     const HomeLogoProject = new Project(canvas)
@@ -59,7 +58,7 @@ export default {
 
       // Create a new translated base path
       for (const [letter, points] of Object.entries(logoPoints)) {
-        this['path' + letter.toUpperCase()] = this.initializePath(points) 
+        this['path' + letter.toUpperCase()] = this.initializePath(points)
       }
 
       this.ben1 = {
@@ -113,9 +112,10 @@ export default {
   },
   methods: {
     updateInitialBenPosition (benIndex, pos) {
-      for (const [letter, path] of Object.entries(this['ben'+benIndex].paths)) {
+      for (const [letter, path] of Object.entries(this['ben' + benIndex].paths)) {
         this['ben' + benIndex].simulators[letter].updateOriginalPositions(pos)
       }
+      // TODO: Fix scaling
     },
     setInitialBenPosition (ben, pos) {
       ben.simulators = {
@@ -131,6 +131,7 @@ export default {
         } else if (letter === 'n') {
           path.translate({ x: 290, y: 0 })
         }
+        path.scale(( window.innerWidth / window.innerHeight) * 0.55)
         path.visible = true
         ben.paths[letter] = path
 
@@ -166,7 +167,6 @@ export default {
       for (const point of points) {
         path.add(point)
       }
-      path.scale(1)
       path.translate({ x: 0 - path.position.x, y: 0 - path.position.y })
       return path
     },
@@ -179,16 +179,15 @@ export default {
 
       this.ben1.simulators.b.update({ x: this.mouseDx, y: this.mouseDy })
       this.ben1.simulators.e.update({ x: this.mouseDx, y: this.mouseDy })
-      this.ben1.simulators.n.update({ x: this.mouseDx, y: this.mouseDy })
+      this.ben1.simulators.n.update({ x: -this.mouseDx, y: -this.mouseDy })
 
       this.ben2.simulators.b.update({ x: -this.mouseDx, y: this.mouseDy })
-      this.ben2.simulators.e.update({ x: this.mouseDx, y: -this.mouseDy })
+      this.ben2.simulators.e.update({ x: this.mouseDx, y: this.mouseDy })
       this.ben2.simulators.n.update({ x: -this.mouseDx, y: this.mouseDy })
 
-      this.ben3.simulators.b.update({ x: -this.mouseDx, y: -this.mouseDy })
-      this.ben3.simulators.e.update({ x: -this.mouseDx, y: this.mouseDy })
-      this.ben3.simulators.n.update({ x: -this.mouseDx, y: -this.mouseDy })
-
+      this.ben3.simulators.b.update({ x: this.mouseDx, y: -this.mouseDy })
+      this.ben3.simulators.e.update({ x: this.mouseDx, y: this.mouseDy })
+      this.ben3.simulators.n.update({ x: -this.mouseDx, y: this.mouseDy })
       this.drawLogo()
     },
     drawLogo () {
@@ -225,21 +224,24 @@ export default {
     resizeToy (e) {
       const widthHalf = window.innerWidth / 2
       const heightHalf = window.innerHeight / 2
-      const b1Dx = this.benBounds.width / 2.5 - this.ben1.paths['b'].position.x
-      const b1Dy = this.benBounds.height / 1.75 - this.ben1.paths['b'].position.y
-      if (Math.abs(b1Dx) > 0.05 && Math.abs(b1Dy) > 0.05) {
+
+      const originalY1 = (this.ben1.simulators['b'].vertices[0].originalPosition.y + this.ben1.simulators['b'].vertices[1].originalPosition.y) / 2
+      const b1Dx = this.benBounds.width / 4.0 - this.ben1.simulators['b'].vertices[0].originalPosition.x
+      const b1Dy = this.benBounds.height / 1.75 - originalY1
+      if (Math.abs(b1Dx) > 0.05 || Math.abs(b1Dy) > 0.05) {
         this.updateInitialBenPosition(1, { x: b1Dx, y: b1Dy })
       }
 
-      const b2Dx = (widthHalf - (this.benBounds.width / 2.5)) - this.ben2.paths['b'].position.x
-      const b2Dy = heightHalf - this.ben2.paths['b'].position.y
-      if (Math.abs(b2Dx) > 0.05 && Math.abs(b2Dy) > 0.05) {
+      const originalY2 = (this.ben2.simulators['b'].vertices[0].originalPosition.y + this.ben2.simulators['b'].vertices[1].originalPosition.y) / 2
+      const b2Dx = (widthHalf - (this.benBounds.width / 2.5)) - this.ben2.simulators['b'].vertices[0].originalPosition.x
+      const b2Dy = heightHalf - originalY2
+      if (Math.abs(b2Dx) > 0.05 || Math.abs(b2Dy) > 0.05) {
         this.updateInitialBenPosition(2, { x: b2Dx, y: b2Dy })
       }
-
-      const b3Dx = (window.innerWidth - this.benBounds.width * 1.05) - this.ben3.paths['b'].position.x
-      const b3Dy = (window.innerHeight - this.benBounds.height / 1.75) - this.ben3.paths['b'].position.y
-      if (Math.abs(b3Dx) > 0.05 && Math.abs(b3Dy) > 0.05) {
+      const originalY3 = (this.ben3.simulators['b'].vertices[0].originalPosition.y + this.ben3.simulators['b'].vertices[1].originalPosition.y) / 2
+      const b3Dx = (window.innerWidth - this.benBounds.width * 1.2) - this.ben3.simulators['b'].vertices[0].originalPosition.x
+      const b3Dy = (window.innerHeight - this.benBounds.height / 1.75) - originalY3
+      if (Math.abs(b3Dx) > 0.05 || Math.abs(b3Dy) > 0.05) {
         this.updateInitialBenPosition(3, { x: b3Dx, y: b3Dy })
       }
     }
