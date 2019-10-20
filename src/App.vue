@@ -90,6 +90,8 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+$mobile-side-section-width: calc(100% - #{2 * $mobile-side-bar-tab-width});
+
 .projects-section {
   position: absolute;
   top: 0;
@@ -99,6 +101,11 @@ html, body {
   height: 100%;
 
   transition: all 0.5s $ease-in-out-quad;
+
+  @media screen and (max-width: $small-screen-size) {
+    width: $mobile-side-section-width;
+    right: calc(-1 * #{$mobile-side-section-width});
+  }
 
   &--open {
     transform: translateX(-100%);
@@ -114,6 +121,11 @@ html, body {
   height: 100%;
 
   transition: all 0.5s $ease-in-out-quad;
+
+  @media screen and (max-width: $small-screen-size) {
+    width: $mobile-side-section-width;
+    left: calc(-1 * #{$mobile-side-section-width});
+  }
 
   &--open {
     transform: translateX(100%);

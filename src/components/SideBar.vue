@@ -46,7 +46,7 @@ export default {
     top: 0;
 
     box-sizing: border-box;
-    width: 5rem;
+    width: $side-bar-tab-width;
     height: 100%;
     padding: 0.5rem;
 
@@ -54,16 +54,28 @@ export default {
 
     background: $black;
 
+    @media screen and (max-width: $small-screen-size) {
+      width: $mobile-side-bar-tab-width;
+    }
+
     &--left {
-      left: -5rem;
+      left: -$side-bar-tab-width;
 
       border-left: 4px solid $white;
+
+      @media screen and (max-width: $small-screen-size) {
+        left: -$mobile-side-bar-tab-width
+      }
     }
 
     &--right {
-      right: -5rem;
+      right: -$side-bar-tab-width;
 
       border-right: 4px solid $white;
+
+      @media screen and (max-width: $small-screen-size) {
+        right: -$mobile-side-bar-tab-width
+      }
     }
 
   }
@@ -74,6 +86,10 @@ export default {
     color: $white;
 
     font-size: 4.5rem;
+
+    @media screen and (max-width: $small-screen-size) {
+      font-size: 3rem;
+    }
 
     &--top {
       top: 0;
@@ -88,7 +104,7 @@ export default {
       bottom: 0;
 
       margin-bottom: 10%;
-      margin-left: 90%;
+      margin-left: 85%;
 
       transform: rotate(-90deg);
       transform-origin: bottom left;
