@@ -59,16 +59,15 @@ const arrayShuffle = function (array) {
     padding-top: 2rem;
     margin:0 auto;
     max-width: 80%;
-    font-size: calc(15px + 1vw);
-    line-height: calc(1.1em + 0.5vw);
-    text-align: justify;
+    font-size: 1.85rem;
+    line-height: 2.5rem;
   }
 
   &__social {
     padding-top:4rem;
     margin:0 auto;
     max-width: 80%;
-    font-size: calc(40px + 1vw);
+    font-size: 3.5rem;
     margin-bottom: 3rem;
     a {
       text-decoration: none;
@@ -76,18 +75,18 @@ const arrayShuffle = function (array) {
       padding-right:0.55rem;
     }
     a:hover {
-      // color: red;
       text-decoration: underline;
     }
   }
 
   &__mail {
     display:block;
+    margin:0 auto;
+    max-width: 80%;
+    padding-bottom:1rem;
     img {
-      width: calc(150px + 1vw);
+      width: 10rem;
       display: block;
-      margin: 0 auto;
-
     }
   }
 
@@ -96,6 +95,18 @@ const arrayShuffle = function (array) {
     img {
       padding:5px;
       border: 3px solid white;
+    }
+  }
+
+  @media screen and (max-width: $small-screen-size) {
+    &__content {
+      font-size: 1.6rem;
+      line-height: 2.25rem;
+    }
+
+    &__social {
+      padding-top: 2rem;
+      font-size: 3.25rem;
     }
   }
 }
