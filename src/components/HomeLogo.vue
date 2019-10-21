@@ -101,10 +101,17 @@ export default {
       }
       const widthHalf = window.innerWidth / 2
       const heightHalf = window.innerHeight / 2
+      if (window.innerWidth <= 900) {
+        console.log(window.innerWidth, widthHalf, this.benBounds)
+        this.ben1 = this.setInitialBenPosition(this.ben1, { x: widthHalf - this.benBounds.x * 0.5, y: this.benBounds.height / 1.75 })
+        this.ben2 = this.setInitialBenPosition(this.ben2, { x: widthHalf - this.benBounds.x * 0.5, y: heightHalf })
+        this.ben3 = this.setInitialBenPosition(this.ben3, { x: widthHalf - this.benBounds.x * 0.5, y: window.innerHeight - this.benBounds.height / 1.75 })
+      } else {
+        this.ben1 = this.setInitialBenPosition(this.ben1, { x: this.benBounds.width / 2.5, y: this.benBounds.height / 1.75 })
+        this.ben2 = this.setInitialBenPosition(this.ben2, { x: widthHalf - (this.benBounds.width / 2.5), y: heightHalf })
+        this.ben3 = this.setInitialBenPosition(this.ben3, { x: window.innerWidth - this.benBounds.width * 1.05, y: window.innerHeight - this.benBounds.height / 1.75 })
+      }
 
-      this.ben1 = this.setInitialBenPosition(this.ben1, { x: this.benBounds.width / 2.5, y: this.benBounds.height / 1.75 })
-      this.ben2 = this.setInitialBenPosition(this.ben2, { x: widthHalf - (this.benBounds.width / 2.5), y: heightHalf })
-      this.ben3 = this.setInitialBenPosition(this.ben3, { x: window.innerWidth - this.benBounds.width * 1.05, y: window.innerHeight - this.benBounds.height / 1.75 })
 
       HomeLogoProject.view.onFrame = this.updateLogo.bind(this)
       HomeLogoProject.view.onResize = debounce(this.resizeToy, 250).bind(this)
@@ -119,19 +126,32 @@ export default {
     },
     setInitialBenPosition (ben, pos) {
       ben.simulators = {
-        b : null,
-        e : null,
-        n : null
+        b: null,
+        e: null,
+        n: null
       }
 
       for (const [letter, path] of Object.entries(ben.paths)) {
         path.translate({ x: pos.x, y: pos.y })
-        if (letter === 'e') {
-          path.translate({ x: 145, y: 0 })
-        } else if (letter === 'n') {
-          path.translate({ x: 290, y: 0 })
+        if (window.innerWidth <= 900) {
+          if (letter === 'e') {
+            path.translate({ x: 145/1.65, y: 0 })
+          } else if (letter === 'n') {
+            path.translate({ x: 290/1.65, y: 0 })
+          }
+        } else {
+          if (letter === 'e') {
+            path.translate({ x: 145, y: 0 })
+          } else if (letter === 'n') {
+            path.translate({ x: 290, y: 0 })
+          }
         }
-        path.scale(( window.innerWidth / window.innerHeight) * 0.55)
+
+        let scale = Math.max(0.85, (window.innerWidth / window.innerHeight) * 0.55)
+        if (window.innerWidth <= 900) {
+          scale = 0.6
+        }
+        path.scale(scale)
         path.visible = true
         ben.paths[letter] = path
 
