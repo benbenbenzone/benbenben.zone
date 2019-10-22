@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper" v-touch:swipe="onSwipe">
-    <div class="carousel" v-bind:style=" {
+    <div class="carousel" :style=" {
       transition: sliding ? 'none' : 'transform 1s ease',
       transform: getTransform()
     }">
-      <slot v-bind:get-order="getOrder"></slot>
+      <slot :get-order="getOrder"></slot>
     </div>
   </div>
 </template>
@@ -14,13 +14,25 @@
 export default {
   name: 'Carousel',
   props: {
-    numSlides: Number
+    numSlides: Number,
+    autoPlay: Boolean
   },
   data () {
     return {
       position: 0,
       sliding: false
     }
+  },
+  mounted () {
+    console.log('CAROUSEL MUNTED', this.autoPlay)
+    if (this.autoPlay) {
+      this.interval = setInterval(() => {
+        this.nextSlide()
+      }, 3000)
+    }
+  },
+  updated () {
+    console.log('hellooooo')
   },
   methods: {
     getOrder (itemIndex) {
@@ -54,6 +66,8 @@ export default {
       }, 50)
     },
     onSwipe (direction) {
+      if (this.autoPlay) return
+
       if (direction === 'left') {
         this.nextSlide()
       } else if (direction === 'right') {

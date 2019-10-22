@@ -1,5 +1,5 @@
 <template>
-  <div class="slide"  v-bind:style="{ order: order }">
+  <div class="slide"  :style="{ order: order }">
     <slot></slot>
   </div>
 </template>

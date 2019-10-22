@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <div class="projects-section" v-bind:class="{ 'projects-section--open': showProjects }">
+    <div class="projects-section" :class="{ 'projects-section--open': showProjects }">
       <SideBar title="PROJECTS" tabClickEventName="projects-tab-click" v-on:projects-tab-click="toggleProjects" v-closable="{ exclude: [], handler: 'closeProjects'}" position="right">
         <Projects />
       </SideBar>
     </div>
-    <div class="about-section" v-bind:class="{ 'about-section--open': showAbout }">
+    <div class="about-section" :class="{ 'about-section--open': showAbout }">
       <SideBar title="ABOUT" tabClickEventName="about-tab-click" v-on:about-tab-click="toggleAbout" v-closable="{ exclude: [], handler: 'closeAbout'}" position="left">
         <About />
       </SideBar>

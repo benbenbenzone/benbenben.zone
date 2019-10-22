@@ -1,7 +1,7 @@
 <template>
-  <div class="side-bar" v-bind:class="{ 'side-bar--right': position === 'right', 'side-bar--left': position === 'left' }">
-    <div class="side-bar__tab" v-bind:class="{ 'side-bar__tab--left': position === 'right', 'side-bar__tab--right': position === 'left' }" v-on:click="$emit(tabClickEventName)">
-      <div class="side-bar__tab-title" v-bind:class="{ 'side-bar__tab-title--top': position === 'right', 'side-bar__tab-title--bottom': position === 'left' }">
+  <div class="side-bar" :class="{ 'side-bar--right': position === 'right', 'side-bar--left': position === 'left' }">
+    <div class="side-bar__tab" :class="{ 'side-bar__tab--left': position === 'right', 'side-bar__tab--right': position === 'left' }" v-on:click="$emit(tabClickEventName)">
+      <div class="side-bar__tab-title" :class="{ 'side-bar__tab-title--top': position === 'right', 'side-bar__tab-title--bottom': position === 'left' }">
         {{title}}
       </div>
     </div>
@@ -32,6 +32,7 @@ export default {
   background: $black;
 
   overflow-y: auto;
+  overflow-x: hidden;
 
   &--left {
     border-right: 4px solid $white;

@@ -1,10 +1,9 @@
 <template>
   <div class="projects" v-closable="{ exclude: [], handler: 'resetProjects'}">
-    <div v-for="(project, index) in projects" v-bind:key="project.id" v-on:click="openProject(index)" class="project-outer"
-      v-bind:class="[(index + 1) % 2 === 0 ? 'project-outer--bottom' : 'project-outer--top', selectedProject === index ? 'project-outer--open' : 'project-outer--close']"
-      v-bind:style="{ zIndex: projects.length - index }">
-      <div class="project-inner" v-bind:class="[(index + 1) % 2 === 0 ? 'project-inner--bottom' : 'project-inner--top', selectedProject === index ? 'project-inner--open' : 'project-inner--close']">
-        <Project v-bind:project="project" v-bind:position="(index + 1) % 2 == 0 ? 'bottom' : 'top'" v-bind:open="selectedProject === index"/>
+    <div v-for="(project, index) in projects" :key="project.id" v-on:click="openProject(index)" class="project-outer"
+      :class="[(index + 1) % 2 === 0 ? 'project-outer--bottom' : 'project-outer--top', selectedProject === index ? 'project-outer--open' : 'project-outer--close']">
+      <div class="project-inner" :class="[(index + 1) % 2 === 0 ? 'project-inner--bottom' : 'project-inner--top', selectedProject === index ? 'project-inner--open' : 'project-inner--close']">
+        <Project :project="project" :position="(index + 1) % 2 == 0 ? 'bottom' : 'top'" :open="selectedProject === index" :clickable="clickableProject === index"/>
       </div>
     </div>
   </div>
@@ -22,7 +21,8 @@ export default {
   data () {
     return {
       projects: [],
-      selectedProject: -1
+      selectedProject: -1,
+      clickableProject: -1
     }
   },
   mounted () {
@@ -38,7 +38,7 @@ export default {
       this.selectedProject = -1
     }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -46,6 +46,8 @@ export default {
 $triangle-height: 300px;
 $content-height: 500px;
 $border-width: 3px;
+$z-index-project-bottom: 1;
+$z-index-project-top: 2;
 
 .project-inner {
   position: relative;
@@ -89,6 +91,8 @@ $border-width: 3px;
   }
 
   &--top {
+    z-index: $z-index-project-top;
+
     &.project-outer--close {
       clip-path: polygon(0 $border-width, 0 0, 100% 0, 100% 100%);
     }
@@ -99,6 +103,8 @@ $border-width: 3px;
   }
 
   &--bottom {
+    z-index:  $z-index-project-bottom;
+
     margin-top: -$triangle-height;
 
     &.project-outer--close {
