@@ -100,13 +100,13 @@ const arrayShuffle = function (array) {
 
   @media screen and (max-width: $small-screen-size) {
     &__content {
-      font-size: 1.6rem;
-      line-height: 2.25rem;
+      font-size: 1.45rem;
+      line-height: 2.15rem;
     }
 
     &__social {
       padding-top: 2rem;
-      font-size: 3.25rem;
+      font-size: 2.65rem;
     }
   }
 }
