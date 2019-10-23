@@ -4,7 +4,7 @@
       {{about.content}}
     </div>
     <div class="about__social">
-      <a v-for="url in socialUrls" :href="url">Ben</a>
+      <a v-for="url in socialUrls" :href="url">BEN</a>
     </div>
     <a href="mailto:ben@benbenben.zone" class="about__mail">
       <img src="../assets/mail.svg">
@@ -106,7 +106,7 @@ const arrayShuffle = function (array) {
 
     &__social {
       padding-top: 2rem;
-      font-size: 2.65rem;
+      font-size: 2rem;
     }
   }
 }
