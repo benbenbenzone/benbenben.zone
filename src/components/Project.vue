@@ -4,6 +4,11 @@
       <span class="project__client">{{project.client}}</span><br />
       <span class="project__type">{{project.type}}</span>
     </div>
+    <!-- <div v-if="project.link != null" class="project__link">
+      <a :href="project.link" class="project__link-link">
+        GO
+      </a>
+    </div> -->
     <div class="project__info-media" :class="{ 'project__info-media--top': position === 'top', 'project__info-media--bottom':  position === 'bottom', 'project__info-media--closed': !open }">
       <div class="project__info" :class="position === 'top' ? 'project__info--top' : 'project__info--bottom'">
         <div class="project__info-toggle" v-on:click="toggleInfoDescription" :class="{ 'project__info-toggle--top': onTop, 'project__info-toggle--bottom': onBottom }">
@@ -58,7 +63,13 @@ export default {
     mediaUrls () {
       if (this.project.media) {
         const computed = this.project.media.map((mediaObj) => {
-          return config.API_URL + mediaObj.media.url
+          if (mediaObj.media) {
+            const splitUrl = mediaObj.media.url.split('/upload/');
+            const resizedUrl = splitUrl[0] + '/upload' + config.cloudinaryTransformation + splitUrl[1]
+            return resizedUrl
+          } else {
+            return ''
+          }
         })
 
         return computed
@@ -255,7 +266,7 @@ export default {
   }
 
   &__info-toggle {
-    pointer-events: all;
+    pointer-events: auto;
     cursor: pointer;
 
     font-family: $stratos;
@@ -264,6 +275,7 @@ export default {
       order: 0;
 
       margin-bottom: 1rem;
+      text-align: right;
     }
 
     &--bottom {
