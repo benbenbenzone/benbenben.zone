@@ -1,5 +1,5 @@
 <template>
-  <div class="project" :style="{ pointerEvents: isSafari ? 'none' : 'auto' }">
+  <div class="project" :style="{ pointerEvents: isSafari ? 'none' : 'auto', cursor: open ? 'auto' : 'pointer' }">
     <div class="project__client-type" :class="[ position === 'top' ? 'project__client-type--top' : 'project__client-type--bottom' ]">
       <span class="project__client">{{project.client}}</span><br />
       <span class="project__type">{{project.type}}</span>
@@ -256,6 +256,7 @@ export default {
 
   &__info-toggle {
     pointer-events: all;
+    cursor: pointer;
 
     font-family: $stratos;
 
