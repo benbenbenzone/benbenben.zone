@@ -10,17 +10,19 @@
           + INFO
         </div>
         <div class="project__info-description" :class="{ 'project__info-description--open': infoOpen, 'project__info-description--top': onTop, 'project__info-description--bottom': onBottom }" ref="infoDescription">
-          {{project.description}}
+          <div v-html="description"></div>
+          <br />
+          <div class="project__info-role">ROLE: {{roles}}</div>
         </div>
       </div>
-      <div class="project__media" :style="{ transform: getMediaTransform(), transitionDelay: projectInfoOpen ? '0' : '0.3s' }">
-        <carousel v-slot:default="slotProps" :num-slides="mediaUrls.length" :autoPlay="isSafari">
-          <slide v-for="(url, index) in mediaUrls" :key="url" :order="slotProps.getOrder(index)">
-            <div class="project__media-image-container" :class="position === 'top' ? 'project__media-image-container--top' : 'project__media-image-container--bottom'">
+      <div class="project__media" :class="{ 'project__media--top': onTop, 'project__media--bottom': onBottom }" :style="{ transform: getMediaTransform(), transitionDelay: infoOpen ? '0s' : '0.3s' }">
+        <swiper :options="getSwiperOptions()" ref="mediaSlider">
+          <swiper-slide v-for="url in mediaUrls" :key="url">
+            <!-- <div class="project__media-image-container" :class="position === 'top' ? 'project__media-image-container--top' : 'project__media-image-container--bottom'"> -->
               <img class="project__media-image" v-lazy="url" />
-            </div>
-          </slide>
-        </carousel>
+            <!-- </div> -->
+          </swiper-slide>
+        </swiper>
       </div>
     </div>
   </div>
@@ -28,8 +30,9 @@
 
 <script>
 import config from '../api/config'
-import Carousel from './carousel/Carousel'
-import Slide from './carousel/Slide'
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import MarkdownIt from 'markdown-it'
 
 export default {
   name: 'Project',
@@ -45,8 +48,11 @@ export default {
     clickable: Boolean
   },
   components: {
-    Slide,
-    Carousel
+    swiper,
+    swiperSlide
+  },
+  mounted () {
+    console.log(this.project)
   },
   computed: {
     mediaUrls () {
@@ -68,11 +74,39 @@ export default {
     },
     onBottom () {
       return this.position === 'bottom'
+    },
+    description () {
+      if (this.project.description) {
+        const md = new MarkdownIt()
+        return md.render(this.project.description)
+      }
+
+      return ''
+    },
+    roles () {
+      let currentRoles = ''
+      if (this.project.role) {
+        currentRoles = Object.entries(this.project.role).filter(([role, active]) => { return active === true }).map(([role, active]) => {
+          return role
+        }).join(', ')
+      }
+      
+      return currentRoles
+    }
+  },
+  watch: {
+    open (newVal, oldVal) {
+      this.infoOpen = false
+      if (newVal === true) {
+        this.$refs.mediaSlider.swiper.update()
+      }
     }
   },
   methods: {
     toggleInfoDescription () {
-      this.infoOpen = !this.infoOpen
+      if (this.open) {
+        this.infoOpen = !this.infoOpen
+      }
     },
     getMediaTransform () {
       if (!this.infoOpen && this.$refs.infoDescription) {
@@ -84,12 +118,52 @@ export default {
       } else {
         return 'translateY(0)'
       }
+    },
+    getSwiperOptions () {
+      return {
+        slidesPerView: 'auto',
+        centeredSlides: true,
+        autoplay: this.isSafari,
+        freeMode: !this.isSafari,
+        freeModeSticky: true,
+        spaceBetween: 30
+      }
     }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss">
+.project__media {
+  &--top {
+    .swiper-wrapper {
+      align-items: flex-start;
+    }
+  }
+
+  &--bottom {
+    .swiper-wrapper {
+      align-items: flex-end;
+    }
+  }
+
+  .swiper-slide {
+    width: auto;
+  }
+}
+.project__info-description {
+  line-height: 1.5;
+
+  a {
+    text-decoration: underline;
+
+    color: $white;
+
+    font-weight: bold;
+  }
+}
+</style>
 <style scoped lang="scss">
 .project {
   &__client-type {
@@ -162,10 +236,11 @@ export default {
   &__info {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 
     padding: 1.5rem;
 
-    font-family: $caslon;
+    font-family: $orpheus;
     // letter-spacing: 0.75px
     font-size: 1.2rem;
     line-height: 1.25;
@@ -180,15 +255,19 @@ export default {
   }
 
   &__info-toggle {
+    pointer-events: all;
+
     font-family: $stratos;
 
     &--top {
       order: 0;
+
       margin-bottom: 1rem;
     }
 
     &--bottom {
       order: 1;
+
       margin-top: 1rem;
     }
   }
@@ -208,8 +287,21 @@ export default {
     
     &--open {
       transition: opacity 0.3s 0.3s $ease-in-quad;
+
       opacity: 1;
     }
+    
+    a {
+      color: $white;
+    }
+  }
+
+  &__info-role {
+    text-align: right;
+    text-transform: lowercase;
+
+    font-family: $stratos;
+    font-weight: bold;
   }
 
   &__media {
@@ -218,24 +310,8 @@ export default {
     transition: transform 0.3s $ease-in-quad;
   }
 
-  &__media-image-container {
-    display: flex;
-    flex-direction: column;
-
-    height: 100%;
-
-    &--top {
-      justify-content: flex-start;
-
-    }
-
-    &--bottom {
-      justify-content: flex-end;
-    }
-  }
-
   &__media-image {
-    width: 100%;
+    height: 300px;
 
     transition: all 0.3s;
 

@@ -54,7 +54,7 @@ const arrayShuffle = function (array) {
 <style scoped lang="scss">
 
 .about {
-  font-family: $caslon;
+  font-family: $orpheus;
   &__content {
     padding-top: 2rem;
     margin:0 auto;
