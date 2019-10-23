@@ -1,26 +1,24 @@
 <template>
   <div class="project" :style="{ pointerEvents: isSafari ? 'none' : 'auto', cursor: open ? 'auto' : 'pointer' }">
-    <div class="project__client-type" :class="[ position === 'top' ? 'project__client-type--top' : 'project__client-type--bottom' ]">
+    <div :class="generateClasses('project__client-type')">
       <span class="project__client">{{project.client}}</span><br />
       <span class="project__type">{{project.type}}</span>
     </div>
-    <!-- <div v-if="project.link != null" class="project__link">
-      <a :href="project.link" class="project__link-link">
-        GO
-      </a>
-    </div> -->
-    <div class="project__info-media" :class="{ 'project__info-media--top': position === 'top', 'project__info-media--bottom':  position === 'bottom', 'project__info-media--closed': !open }">
-      <div class="project__info" :class="position === 'top' ? 'project__info--top' : 'project__info--bottom'">
-        <div class="project__info-toggle" v-on:click="toggleInfoDescription" :class="{ 'project__info-toggle--top': onTop, 'project__info-toggle--bottom': onBottom }">
+    <a v-if="project.link" :href="project.link" target="_blank" :class="generateClasses('project__link')">
+      VISIT
+    </a>
+    <div :class="generateClasses('project__info-media')">
+      <div :class="generateClasses('project__info')">
+        <div :class="generateClasses('project__info-toggle')" v-on:click="toggleInfoDescription">
           + INFO
         </div>
-        <div class="project__info-description" :class="{ 'project__info-description--open': infoOpen, 'project__info-description--top': onTop, 'project__info-description--bottom': onBottom }" ref="infoDescription">
+        <div :class="Object.assign(generateClasses('project__info-description'), { 'project__info-description--open': infoOpen })" ref="infoDescription">
           <div v-html="description"></div>
           <br />
           <div class="project__info-role">ROLE: {{roles}}</div>
         </div>
       </div>
-      <div class="project__media" :class="{ 'project__media--top': onTop, 'project__media--bottom': onBottom }" :style="{ transform: getMediaTransform(), transitionDelay: infoOpen ? '0s' : '0.3s' }">
+      <div :class="generateClasses('project__media')" :style="{ transform: getMediaTransform(), transitionDelay: infoOpen ? '0s' : '0.3s' }">
         <swiper :options="getSwiperOptions()" ref="mediaSlider">
           <swiper-slide v-for="url in mediaUrls" :key="url">
             <!-- <div class="project__media-image-container" :class="position === 'top' ? 'project__media-image-container--top' : 'project__media-image-container--bottom'"> -->
@@ -57,7 +55,7 @@ export default {
     swiperSlide
   },
   mounted () {
-    console.log(this.project)
+    console.log(this.$refs.infoDescription)
   },
   computed: {
     mediaUrls () {
@@ -101,8 +99,19 @@ export default {
           return role
         }).join(', ')
       }
-      
+
       return currentRoles
+    },
+    mediaTransform () {
+      if (!this.infoOpen && this.$refs.infoDescription) {
+        if (this.position === 'top') {
+          return `translateY(-${this.$refs.infoDescription.clientHeight}px)`
+        } else {
+          return `translateY(${this.$refs.infoDescription.clientHeight}px)`
+        }
+      } else {
+        return 'translateY(0)'
+      }
     }
   },
   watch: {
@@ -110,6 +119,13 @@ export default {
       this.infoOpen = false
       if (newVal === true) {
         this.$refs.mediaSlider.swiper.update()
+      }
+    },
+    project () {
+      if (this.$refs.infoDescription) {
+        console.log(this.$refs.infoDescription)
+      } else {
+        console.log('helloooo')
       }
     }
   },
@@ -137,8 +153,19 @@ export default {
         autoplay: this.isSafari,
         freeMode: !this.isSafari,
         freeModeSticky: true,
+        mousewheel: true,
         spaceBetween: 30
       }
+    },
+    generateClasses (baseClass) {
+      const classes = {}
+      classes[baseClass] = true
+      classes[baseClass + '--open'] = this.open
+      classes[baseClass + '--closed'] = !this.open
+      classes[baseClass + '--top'] = this.onTop
+      classes[baseClass + '--bottom'] = this.onBottom
+
+      return classes
     }
   }
 }
@@ -161,6 +188,7 @@ export default {
 
   .swiper-slide {
     width: auto;
+    max-width: 100%;
   }
 }
 .project__info-description {
@@ -212,6 +240,24 @@ export default {
 
   &__type {
     text-transform: lowercase;
+  }
+
+  &__link {
+    z-index: 5;
+    position: absolute;
+    color: $white;
+    font-size: 1.5rem;
+    font-style: italic;
+
+    &--top {
+      bottom: 3rem;
+      right: 1.5rem;
+    }
+
+    &--bottom {
+      top: 3rem;
+      left: 1.5rem;
+    }
   }
 
   &__info-media {
@@ -271,6 +317,8 @@ export default {
 
     font-family: $stratos;
 
+    transition: opacity 0.3s $ease-in-quad;
+
     &--top {
       order: 0;
 
@@ -282,6 +330,14 @@ export default {
       order: 1;
 
       margin-top: 1rem;
+    }
+
+    &--open {
+      opacity: 1;
+    }
+
+    &--closed {
+      opacity: 0;
     }
   }
 
@@ -324,7 +380,8 @@ export default {
   }
 
   &__media-image {
-    height: 300px;
+    max-height: 300px;
+    max-width: 100%;
 
     transition: all 0.3s;
 

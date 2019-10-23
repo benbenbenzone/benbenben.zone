@@ -52,9 +52,9 @@ $z-index-project-top: 2;
 .project-inner {
   position: relative;
 
-  background: $black;
-
   transition: all 0.3s;
+
+  background: $black;
 
   &--close {
     height: $triangle-height - $border-width;
@@ -78,9 +78,11 @@ $z-index-project-top: 2;
 .project-outer {
   position: relative;
 
-  background: $white;
+  overflow: hidden;
 
   transition: all 0.3s;
+
+  background: $white;
 
   &--close {
     height: $triangle-height;
