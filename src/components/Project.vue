@@ -1,6 +1,6 @@
 <template>
   <div class="project" :style="{ pointerEvents: isSafari ? 'none' : 'auto', cursor: open ? 'auto' : 'pointer' }">
-    <div :class="generateClasses('project__client-type')">
+    <div :class="generateClasses('project__client-type')" v-on:click="closeSelf">
       <span class="project__client">{{project.client}}</span><br />
       <span class="project__type">{{project.type}}</span>
     </div>
@@ -8,7 +8,7 @@
       VISIT
     </a>
     <div :class="generateClasses('project__info-media')">
-      <div :class="generateClasses('project__info')">
+      <div :class="generateClasses('project__info')" ref="info">
         <div :class="generateClasses('project__info-toggle')" v-on:click="toggleInfoDescription">
           + INFO
         </div>
@@ -18,7 +18,7 @@
           <div class="project__info-role">ROLE: {{roles}}</div>
         </div>
       </div>
-      <div :class="generateClasses('project__media')" :style="{ transform: getMediaTransform(), transitionDelay: infoOpen ? '0s' : '0.3s' }">
+      <div :class="generateClasses('project__media')" :style="{ transform: mediaTransform, transitionDelay: infoOpen ? '0s' : '0.3s' }">
         <swiper :options="getSwiperOptions()" ref="mediaSlider">
           <swiper-slide v-for="url in mediaUrls" :key="url">
             <!-- <div class="project__media-image-container" :class="position === 'top' ? 'project__media-image-container--top' : 'project__media-image-container--bottom'"> -->
@@ -41,7 +41,8 @@ export default {
   name: 'Project',
   data () {
     return {
-      infoOpen: false
+      infoOpen: false,
+      mediaTransform: 'transformY(0)'
     }
   },
   props: {
@@ -55,7 +56,9 @@ export default {
     swiperSlide
   },
   mounted () {
-    console.log(this.$refs.infoDescription)
+    if (this.$refs.infoDescription) {
+      this.mediaTransform = this.getMediaTransform()
+    }
   },
   computed: {
     mediaUrls () {
@@ -101,17 +104,6 @@ export default {
       }
 
       return currentRoles
-    },
-    mediaTransform () {
-      if (!this.infoOpen && this.$refs.infoDescription) {
-        if (this.position === 'top') {
-          return `translateY(-${this.$refs.infoDescription.clientHeight}px)`
-        } else {
-          return `translateY(${this.$refs.infoDescription.clientHeight}px)`
-        }
-      } else {
-        return 'translateY(0)'
-      }
     }
   },
   watch: {
@@ -120,19 +112,22 @@ export default {
       if (newVal === true) {
         this.$refs.mediaSlider.swiper.update()
       }
-    },
-    project () {
-      if (this.$refs.infoDescription) {
-        console.log(this.$refs.infoDescription)
-      } else {
-        console.log('helloooo')
-      }
     }
   },
   methods: {
     toggleInfoDescription () {
       if (this.open) {
         this.infoOpen = !this.infoOpen
+        this.mediaTransform = this.getMediaTransform()
+        if (this.infoOpen) {
+          // This could be calculated earlier if we really wanted to. Info doesn't have to be open to get this right
+          const infoDistFromProjectTop = this.$refs.info.getBoundingClientRect().top - this.$el.getBoundingClientRect().top
+          const infoHeight = this.$refs.info.clientHeight
+          const projectTotalHeight = infoHeight + infoDistFromProjectTop
+          this.$emit('project-info-opened', projectTotalHeight)
+        } else {
+          this.$emit('project-info-opened', 0)
+        }
       }
     },
     getMediaTransform () {
@@ -166,6 +161,12 @@ export default {
       classes[baseClass + '--bottom'] = this.onBottom
 
       return classes
+    },
+    closeSelf (event) {
+      if (this.open) {
+        this.$emit('project-collapse-click')
+        event.stopPropagation()
+      }
     }
   }
 }
@@ -215,6 +216,12 @@ export default {
 
     $margin: 1.5rem;
 
+    @media screen and (max-width: $small-screen-size) {
+      width: 50%;
+
+      font-size: 1.25rem;
+    }
+
     &--top {
       top: 0;
       right: 0;
@@ -232,6 +239,11 @@ export default {
 
       text-align: left;
     }
+
+    &--open {
+      pointer-events: auto;
+      cursor: pointer;
+    }
   }
 
   &__client {
@@ -243,20 +255,36 @@ export default {
   }
 
   &__link {
-    z-index: 5;
     position: absolute;
+    z-index: 5;
+
+    pointer-events: auto;
+
     color: $white;
+
     font-size: 1.5rem;
     font-style: italic;
 
+    @media screen and (max-width: $small-screen-size) {
+      font-size: 1.25rem;
+    }
+
     &--top {
-      bottom: 3rem;
       right: 1.5rem;
+      bottom: 3rem;
+
+      @media screen and (max-width: $x-small-screen-size) and (max-aspect-ratio: 4/5) {
+        bottom: 5rem;
+      }
     }
 
     &--bottom {
       top: 3rem;
       left: 1.5rem;
+
+      @media screen and (max-width: $x-small-screen-size) and (max-aspect-ratio: 4/5) {
+        top: 5rem;
+      }
     }
   }
 
@@ -312,17 +340,17 @@ export default {
   }
 
   &__info-toggle {
-    pointer-events: auto;
     cursor: pointer;
+    transition: opacity 0.3s $ease-in-quad;
+    pointer-events: auto;
 
     font-family: $stratos;
-
-    transition: opacity 0.3s $ease-in-quad;
 
     &--top {
       order: 0;
 
       margin-bottom: 1rem;
+
       text-align: right;
     }
 
@@ -374,14 +402,16 @@ export default {
   }
 
   &__media {
+    z-index: 5;
+
     flex: 1;
 
     transition: transform 0.3s $ease-in-quad;
   }
 
   &__media-image {
-    max-height: 300px;
     max-width: 100%;
+    max-height: 300px;
 
     transition: all 0.3s;
 
