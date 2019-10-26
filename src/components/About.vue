@@ -69,6 +69,7 @@ const arrayShuffle = function (array) {
     max-width: 80%;
     font-size: 3.5rem;
     margin-bottom: 3rem;
+    font-family: $stratos;
     a {
       text-decoration: none;
       color: white;
