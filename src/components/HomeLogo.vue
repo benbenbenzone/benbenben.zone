@@ -19,6 +19,7 @@ export default {
 
     this.benBounds = null
 
+    // This should be done with a ref
     document.getElementById('homelogo').onmousemove = function (e) {
       this.mouseDx = e.clientX - this.mouseX
       this.mouseDy = e.clientY - this.mouseY
@@ -111,7 +112,6 @@ export default {
         this.ben2 = this.setInitialBenPosition(this.ben2, { x: widthHalf - (this.benBounds.width / 2.5), y: heightHalf })
         this.ben3 = this.setInitialBenPosition(this.ben3, { x: window.innerWidth - this.benBounds.width * 1.05, y: window.innerHeight - this.benBounds.height / 1.75 })
       }
-
 
       HomeLogoProject.view.onFrame = this.updateLogo.bind(this)
       HomeLogoProject.view.onResize = debounce(this.resizeToy, 250).bind(this)

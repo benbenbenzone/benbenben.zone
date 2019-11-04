@@ -1,33 +1,36 @@
 <template>
   <div class="project" :style="{ pointerEvents: isSafari ? 'none' : 'auto', cursor: open ? 'auto' : 'pointer' }">
-    <div :class="generateClasses('project__client-type')" v-on:click="closeSelf">
-      <span class="project__client">{{project.client}}</span><br />
-      <span class="project__type">{{project.type}}</span>
+    <div :class="generateClasses('project__container')">
+      <div :class="generateClasses('project__client-type')" v-on:click="closeSelf">
+        <span class="project__client">{{project.client}}</span><br />
+        <span class="project__type">{{project.type}}</span>
+      </div>
+      <div :class="generateClasses('project__info-media')">
+        <div :class="generateClasses('project__info')" ref="info">
+          <div :class="generateClasses('project__info-toggle')" v-on:click="toggleInfoDescription">
+            + INFO
+          </div>
+          <div :class="Object.assign(generateClasses('project__info-description'), { 'project__info-description--open': infoOpen })" ref="infoDescription">
+            <div v-html="description"></div>
+            <br />
+            <div class="project__info-role">ROLE: {{roles}}</div>
+          </div>
+        </div>
+        <div :class="generateClasses('project__media')" :style="{ transform: mediaTransform, transitionDelay: infoOpen ? '0s' : '0.3s' }">
+          <swiper :options="getSwiperOptions()" ref="mediaSlider">
+            <swiper-slide v-for="url in mediaUrls" :key="url">
+              <!-- <div class="project__media-image-container" :class="position === 'top' ? 'project__media-image-container--top' : 'project__media-image-container--bottom'"> -->
+                <img class="project__media-image" v-lazy="url" />
+              <!-- </div> -->
+            </swiper-slide>
+          </swiper>
+        </div>
+      </div>
     </div>
+    
     <a v-if="project.link" :href="project.link" target="_blank" :class="generateClasses('project__link')">
       VISIT
     </a>
-    <div :class="generateClasses('project__info-media')">
-      <div :class="generateClasses('project__info')" ref="info">
-        <div :class="generateClasses('project__info-toggle')" v-on:click="toggleInfoDescription">
-          + INFO
-        </div>
-        <div :class="Object.assign(generateClasses('project__info-description'), { 'project__info-description--open': infoOpen })" ref="infoDescription">
-          <div v-html="description"></div>
-          <br />
-          <div class="project__info-role">ROLE: {{roles}}</div>
-        </div>
-      </div>
-      <div :class="generateClasses('project__media')" :style="{ transform: mediaTransform, transitionDelay: infoOpen ? '0s' : '0.3s' }">
-        <swiper :options="getSwiperOptions()" ref="mediaSlider">
-          <swiper-slide v-for="url in mediaUrls" :key="url">
-            <!-- <div class="project__media-image-container" :class="position === 'top' ? 'project__media-image-container--top' : 'project__media-image-container--bottom'"> -->
-              <img class="project__media-image" v-lazy="url" />
-            <!-- </div> -->
-          </swiper-slide>
-        </swiper>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -108,9 +111,10 @@ export default {
   },
   watch: {
     open (newVal, oldVal) {
-      this.infoOpen = false
       if (newVal === true) {
         this.$refs.mediaSlider.swiper.update()
+      } else {
+        this.closeInfoDescription() // Close description if we're closed
       }
     }
   },
@@ -129,6 +133,14 @@ export default {
           this.$emit('project-info-opened', 0)
         }
       }
+    },
+    openInfoDescription () {
+      this.infoOpen = true
+      this.mediaTransform = this.getMediaTransform()
+    },
+    closeInfoDescription () {
+      this.infoOpen = false
+      this.mediaTransform = this.getMediaTransform()
     },
     getMediaTransform () {
       if (!this.infoOpen && this.$refs.infoDescription) {
@@ -206,8 +218,28 @@ export default {
 </style>
 <style scoped lang="scss">
 .project {
-  &__client-type {
+
+  &__container {
     position: absolute;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    top: 0;
+    left: 0;
+
+    &--top {
+      flex-direction: column;
+    }
+
+    &--bottom {
+      flex-direction: column-reverse;
+    }
+  }
+
+  &__client-type {
+    position: relative;
 
     width: 100%;
 
@@ -229,6 +261,7 @@ export default {
       padding: $margin $margin 0 0;
 
       text-align: right;
+      align-self: flex-end;
     }
 
     &--bottom {
@@ -238,6 +271,7 @@ export default {
       padding: 0 0 $margin $margin;
 
       text-align: left;
+      align-self: flex-start;
     }
 
     &--open {
@@ -289,8 +323,6 @@ export default {
   }
 
   &__info-media {
-    position: absolute;
-
     display: flex;
     flex-direction: column;
 
@@ -306,14 +338,10 @@ export default {
     }
 
     &--top {
-      top: 6rem;
-
       justify-content: flex-start;
     }
 
     &--bottom {
-      bottom: 6rem;
-
       justify-content: flex-end;
     }
   }
@@ -326,7 +354,6 @@ export default {
     padding: 1.5rem;
 
     font-family: $orpheus;
-    // letter-spacing: 0.75px
     font-size: 1.2rem;
     line-height: 1.25;
 
