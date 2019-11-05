@@ -2,8 +2,16 @@
 @import url('https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap');
 
 /* Typography */
+// TODO: Make sure font sizes follow some sort of logical scale.
 $stratos: stratos, sans-serif;
+$s-primary-header-size: 4.5rem; // side bar title
+$s-primary-header-size-mobile: 3rem;
+$s-secondary-header-size: 1.5rem; // client info
+$s-secondary-header-size-mobile: 1.25rem;
+
 $orpheus: orpheuspro, serif;
+$o-body-text-size: 1.2rem; // client description text
+
 /* End Typography */
 
 /* Colors */

@@ -52,62 +52,70 @@ const arrayShuffle = function (array) {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+// TODO: Font sizes/line heights should be in relation to other font sizes/line heights on site
 .about {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+
+  box-sizing: border-box;
+  min-height: 100%;
+  padding: 0 10% 0 10%;
+
   font-family: $orpheus;
+
   &__content {
-    padding-top: 2rem;
-    margin:0 auto;
-    max-width: 80%;
+    margin-bottom: 3rem;
+
     font-size: 1.85rem;
     line-height: 2.5rem;
+
+    @media screen and (max-width: $small-screen-size) {
+      font-size: 1.45rem;
+      line-height: 2.15rem;
+    }
   }
 
   &__social {
-    padding-top:4rem;
-    margin:0 auto;
-    max-width: 80%;
-    font-size: 3.5rem;
     margin-bottom: 3rem;
+
     font-family: $stratos;
+    font-size: 3.5rem;
+
     a {
-      text-decoration: none;
-      color: white;
       padding-right:0.55rem;
+
+      text-decoration: none;
+
+      color: white;
     }
+
     a:hover {
       text-decoration: underline;
+    }
+
+    @media screen and (max-width: $small-screen-size) {
+      font-size: 2rem;
     }
   }
 
   &__mail {
-    display:block;
-    margin:0 auto;
-    max-width: 80%;
-    padding-bottom:1rem;
+    display: block;
+
     img {
-      width: 10rem;
       display: block;
-    }
-  }
 
-  &__mail:hover {
-    cursor: pointer;
-    img {
-      padding:5px;
-      border: 3px solid white;
-    }
-  }
-
-  @media screen and (max-width: $small-screen-size) {
-    &__content {
-      font-size: 1.45rem;
-      line-height: 2.15rem;
+      width: 10rem;
     }
 
-    &__social {
-      padding-top: 2rem;
-      font-size: 2rem;
+    &:hover {
+      cursor: pointer;
+      img {
+        padding: 5px;
+
+        border: 3px solid white;
+      }
     }
   }
 }

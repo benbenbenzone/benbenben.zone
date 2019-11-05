@@ -86,10 +86,10 @@ export default {
 
     color: $white;
 
-    font-size: 4.5rem;
+    font-size: $s-primary-header-size;
 
     @media screen and (max-width: $small-screen-size) {
-      font-size: 3rem;
+      font-size: $s-primary-header-size-mobile;
     }
 
     &--top {

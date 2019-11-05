@@ -243,7 +243,7 @@ export default {
 
     width: 100%;
 
-    font-size: 1.5rem;
+    font-size: $s-secondary-header-size;
     line-height: 1.25;
 
     $margin: 1.5rem;
@@ -251,7 +251,7 @@ export default {
     @media screen and (max-width: $small-screen-size) {
       width: 50%;
 
-      font-size: 1.25rem;
+      font-size: $s-secondary-header-size-mobile;
     }
 
     &--top {
@@ -296,11 +296,11 @@ export default {
 
     color: $white;
 
-    font-size: 1.5rem;
+    font-size: $s-secondary-header-size;
     font-style: italic;
 
     @media screen and (max-width: $small-screen-size) {
-      font-size: 1.25rem;
+      font-size: $s-secondary-header-size-mobile;
     }
 
     &--top {
@@ -354,7 +354,7 @@ export default {
     padding: 1.5rem;
 
     font-family: $orpheus;
-    font-size: 1.2rem;
+    font-size: $o-body-text-size;
     line-height: 1.25;
 
     &--top {
