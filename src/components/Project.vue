@@ -18,9 +18,10 @@
         </div>
         <div :class="generateClasses('project__media')" :style="{ transform: mediaTransform, transitionDelay: infoOpen ? '0s' : '0.3s' }">
           <swiper :options="getSwiperOptions()" ref="mediaSlider">
-            <swiper-slide v-for="url in mediaUrls" :key="url">
+            <swiper-slide v-for="mediaObj in resizedMedia" :key="mediaObj.media.url">
               <!-- <div class="project__media-image-container" :class="position === 'top' ? 'project__media-image-container--top' : 'project__media-image-container--bottom'"> -->
-                <img class="project__media-image" v-lazy="url" />
+                <img v-if="mediaObj.media.mime.indexOf('image') === 0" class="project__media-image" v-lazy="mediaObj.media.url" />
+                <video v-if="mediaObj.media.mime === 'video/mp4'" class="project__media-image" :src="mediaObj.media.url" autoplay loop />
               <!-- </div> -->
             </swiper-slide>
           </swiper>
@@ -64,16 +65,18 @@ export default {
     }
   },
   computed: {
-    mediaUrls () {
+    resizedMedia () {
       if (this.project.media) {
         const computed = this.project.media.map((mediaObj) => {
-          if (mediaObj.media) {
-            const splitUrl = mediaObj.media.url.split('/upload/');
+          const newMediaObj = Object.assign({}, mediaObj)
+          if (mediaObj.media && mediaObj.media.mime === 'image/png') {
+            const splitUrl = mediaObj.media.url.split('/upload/')
             const resizedUrl = splitUrl[0] + '/upload' + config.cloudinaryTransformation + splitUrl[1]
-            return resizedUrl
-          } else {
-            return ''
+            newMediaObj.media.url = resizedUrl
+          } else if (!mediaObj.media) {
+            newMediaObj.media = { url: '' }
           }
+          return newMediaObj
         })
 
         return computed

@@ -3,7 +3,7 @@ import Config from './config'
 const Api = {
 
   getProjects (params) {
-    const requestURL = Config.API_URL + '/projects'
+    const requestURL = Config.API_URL + '/projects?_sort=priority:asc'
     const req = {
       method: 'get',
       url: requestURL,
