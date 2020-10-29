@@ -8,7 +8,7 @@
       <div :class="generateClasses('project__info-media')">
         <div :class="generateClasses('project__info')" ref="info">
           <div :class="generateClasses('project__info-toggle')" v-on:click="toggleInfoDescription">
-            + INFO
+            {{infoOpen ? '-' : '+'}} INFO
           </div>
           <div :class="Object.assign(generateClasses('project__info-description'), { 'project__info-description--open': infoOpen })" ref="infoDescription">
             <div v-html="description"></div>
@@ -21,7 +21,7 @@
             <swiper-slide v-for="mediaObj in resizedMedia" :key="mediaObj.media.url">
               <!-- <div class="project__media-image-container" :class="position === 'top' ? 'project__media-image-container--top' : 'project__media-image-container--bottom'"> -->
                 <img v-if="mediaObj.media.mime.indexOf('image') === 0" class="project__media-image" v-lazy="mediaObj.media.url" />
-                <video v-if="mediaObj.media.mime === 'video/mp4'" class="project__media-image" :src="mediaObj.media.url" autoplay loop />
+                <video v-if="mediaObj.media.mime === 'video/mp4'" class="project__media-image" :src="mediaObj.media.url" autoplay loop muted />
               <!-- </div> -->
             </swiper-slide>
           </swiper>
